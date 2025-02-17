@@ -1,0 +1,20 @@
+local_resource(
+    'validate_ollama',
+    './ollama/validate.sh',
+    labels=["validate_ollama"],
+    deps=['./ollama']
+)
+
+docker_compose('./docker-compose.yml')
+
+dc_resource(
+    'open-webui',
+    labels=["openwebui"],
+    resource_deps=['validate_ollama', 'searxng']
+)
+
+dc_resource(
+    'searxng',
+    labels=["searxng"],
+    resource_deps=['validate_ollama']
+)

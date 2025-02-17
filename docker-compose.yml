@@ -1,0 +1,46 @@
+services:
+  open-webui:
+    image: ghcr.io/open-webui/open-webui:main
+    container_name: open-webui
+    depends_on:
+      - searxng
+    ports:
+      - 3000:8080
+    environment:
+      OLLAMA_BASE_URL: http://host.docker.internal:11434 # Connect to host
+      TASK_MODEL: llama3.1:8b # default model
+      WEBUI_AUTH: False
+      ENABLE_RAG_WEB_SEARCH: True
+      RAG_WEB_SEARCH_ENGINE: searxng
+      RAG_WEB_SEARCH_RESULT_COUNT: 3
+      RAG_WEB_SEARCH_CONCURRENT_REQUESTS: 10
+      SEARXNG_QUERY_URL: http://searxng:8080/search?q=<query>
+    volumes:
+      - openwebui:/app/backend/data
+    restart: unless-stopped
+
+  searxng:
+    container_name: searxng
+    image: searxng/searxng:latest
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./searxng:/etc/searxng:rw
+    # env_file:
+    #   - .env
+    restart: unless-stopped
+    # cap_drop:
+    #   - ALL
+    cap_add:
+      - CHOWN
+      - SETGID
+      - SETUID
+      - DAC_OVERRIDE
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "1m"
+        max-file: "1"
+
+volumes:
+  openwebui:
