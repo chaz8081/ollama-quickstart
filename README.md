@@ -41,6 +41,9 @@ To spin up the OpenWeb UI environment to demo, use tilt:
 
 - `tilt up`
 
-### Additional Information
+### Links
 
-- [Ollama community integrations](https://github.com/ollama/ollama?tab=readme-ov-file#community-integrations)
+- [Ollama Docs](https://github.com/ollama/ollama/blob/main/docs/README.md)
+  - [Ollama community integrations](https://github.com/ollama/ollama?tab=readme-ov-file#community-integrations)
+- [Continue.dev Docs](https://docs.continue.dev/)
+- [OpenWeb UI Docs](https://docs.openwebui.com)
